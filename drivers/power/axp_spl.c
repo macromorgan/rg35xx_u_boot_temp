@@ -62,6 +62,21 @@ static const struct axp_reg_desc_spl axp_spl_dcdc_regulators[] = {
 #define AXP_SHUTDOWN_REG	0x32
 #define AXP_SHUTDOWN_MASK	BIT(7)
 
+#elif defined(CONFIG_AXP707_POWER)				/* AXP707 */
+
+static const struct axp_reg_desc_spl axp_spl_dcdc_regulators[] = {
+        { 0x10, BIT(0), 0x20, 0x1f, 1600, 3400, 100, NA },
+        { 0x10, BIT(1), 0x21, 0x7f,  500, 1300,  10, 70 },
+        { 0x10, BIT(2), 0x22, 0x7f,  500, 1300,  10, 70 },
+        { 0x10, BIT(3), 0x23, 0x7f,  500, 1300,  10, 70 },
+        { 0x10, BIT(4), 0x24, 0x7f,  800, 1840,  10, 32 },
+};
+#define AXP_CHIP_VERSION	0x3
+#define AXP_CHIP_VERSION_MASK	0xcf
+#define AXP_CHIP_ID		0x81
+#define AXP_SHUTDOWN_REG	0x32
+#define AXP_SHUTDOWN_MASK	BIT(7)
+
 #else
 
 	#error "Please define the regulator registers in axp_spl_regulators[]."
