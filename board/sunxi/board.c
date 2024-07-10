@@ -52,6 +52,8 @@
 #include <asm/setup.h>
 #include <status_led.h>
 
+#include "board_select.h"
+
 DECLARE_GLOBAL_DATA_PTR;
 
 void i2c_init_board(void)
@@ -929,6 +931,11 @@ int board_fit_config_name_match(const char *name)
 		/* No DT name was provided, so accept the first config. */
 		return 0;
 	}
+
+	ret = board_get_name_match(&best_dt_name);
+	if (ret)
+		return ret;
+
 #ifdef CONFIG_PINE64_DT_SELECTION
 	if (strstr(best_dt_name, "-pine64-plus")) {
 		/* Differentiate the Pine A64 boards by their DRAM size. */

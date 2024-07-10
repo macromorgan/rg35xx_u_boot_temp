@@ -8,6 +8,8 @@
 #ifndef _SUNXI_PMIC_BUS_H
 #define _SUNXI_PMIC_BUS_H
 
+typedef unsigned char u8;
+
 int pmic_bus_init(void);
 int pmic_bus_read(u8 reg, u8 *data);
 int pmic_bus_write(u8 reg, u8 data);

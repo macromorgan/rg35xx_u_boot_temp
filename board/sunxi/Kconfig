@@ -22,3 +22,43 @@ config SPL_IMAGE_TYPE
 	string
 	default "sunxi_egon" if SPL_IMAGE_TYPE_SUNXI_EGON
 	default "sunxi_toc0" if SPL_IMAGE_TYPE_SUNXI_TOC0
+
+config SUNXI_RUNTIME_BOARD_DETECTION
+	bool "Runtime Board Detection"
+	depends on (MACH_SUN50I || MACH_SUN50I_H616)
+	help
+	  Allow detection of a specific sub-type of boards during
+	  runtime so that the correct device tree can be selected.
+
+choice
+	prompt "Runtime Board Selection"
+	depends on SUNXI_RUNTIME_BOARD_DETECTION
+	help
+	  Choose the board specific runtime detection logic.
+
+config PINE64_DT_SELECTION
+	bool "Enable Pine64 device tree selection code"
+	depends on (MACH_SUN50I && SUNXI_RUNTIME_BOARD_DETECTION)
+	help
+          The original Pine A64 and Pine A64+ are similar but different
+	  boards and can be differed by the DRAM size. Pine A64 has
+	  512MiB DRAM, and Pine A64+ has 1GiB or 2GiB. By selecting this
+	  option, the device tree selection code specific to Pine64 which
+	  utilizes the DRAM size will be enabled.
+
+config PINEPHONE_DT_SELECTION
+	bool "Enable PinePhone device tree selection code"
+	depends on (MACH_SUN50I && SUNXI_RUNTIME_BOARD_DETECTION)
+	help
+	  Enable this option to automatically select the device tree for the
+	  correct PinePhone hardware revision during boot.
+
+config RG35XX_H700_DT_SELECTION
+	bool "Enable RG35XX device tree selection code"
+	depends on (MACH_SUN50I_H616 && SUNXI_RUNTIME_BOARD_DETECTION)
+	help
+	  Enable this option to automatically select the device tree for the
+	  correct Anbernic RG35XX series device. This does not include any
+	  of the RG35XX based devices built on the Actions Semi based SoC.
+
+endchoice
